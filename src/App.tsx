@@ -84,15 +84,12 @@ export default function App() {
             </motion.h1>
 
             <motion.p variants={itemVariants} className="max-w-2xl mx-auto text-lg md:text-xl text-white/60 font-light leading-relaxed mb-12">
-              Empowering the next generation of creators through technology,
-              collaboration, and shared voices. Join a local movement of thinkers and builders.
+              A community where developers stop building useless tools and start building real products with the right idea makers
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href={REGISTER_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#events"
                 className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-white/90 transition-all group"
               >
                 Register for Events
@@ -122,9 +119,7 @@ export default function App() {
               >
                 <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">Our Mission</h2>
                 <p className="text-white/60 text-lg leading-relaxed mb-8">
-                  We believe that technology is a tool for human connection. Talkware Community is dedicated to
-                  fostering an environment where diverse perspectives meet cutting-edge innovation.
-                  We provide the platform, the tools, and the network—you provide the vision.
+                  To operate as an interchange where isolated developers and idea-only founders connect to build products transparently
                 </p>
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="p-6 glass rounded-2xl">
@@ -175,18 +170,20 @@ export default function App() {
             <div className="grid md:grid-cols-2 gap-8 mb-16">
               {[
                 {
-                  title: "Talkware Community Meetup",
-                  date: "May 17, 2026 • 1:00 PM",
-                  type: "Launch Event",
+                  title: "How To Pitch Your Project?",
+                  date: "May 23, 2026 • 1:00 PM",
+                  type: "Meetup",
                   location: "Location : To Be Announced (Mandalay)",
-                  desc: "To Be Announced"
+                  desc: "To Be Announced",
+                  link: "https://docs.google.com/forms/d/e/1FAIpQLScH7nV55e6NhJSEPM7Fcn3J4z8IbVS1yNPdRJGXNhW_oy3VoA/viewform?usp=dialog"
                 },
                 {
-                  title: "Hacking Industrial IIoT Tech for Oyster Mushroom Microfactories",
-                  date: "May 2, 2026 • 6:00 PM",
-                  type: "Webinar",
-                  speaker: "Sayar Aung Ko Ko Thet",
-                  desc: "Join Sir Aung Ko Ko Thet for an in-depth session on the 'Design Project' approach to implementing Industrial IIoT systems. Organized by Talkware Team."
+                  title: "The Flutter-based simple loyalty application",
+                  date: "To Be Announced",
+                  type: "Training",
+                  speaker: "Sir Aung Ko Ko Thet",
+                  desc: "Master the basics of Flutter by building a practical loyalty application from scratch.",
+                  link: "https://docs.google.com/forms/d/e/1FAIpQLSccpXrLVNgKMq5goHXwKozXAuxIPCAbQ0808n003u6LTo45fg/viewform?usp=header"
                 }
               ].map((event, i) => (
                 <div key={i} className="p-8 border border-black/10 rounded-3xl hover:border-black/30 transition-colors group">
@@ -211,7 +208,7 @@ export default function App() {
                   )}
                   <p className="text-black/60 mb-8 leading-relaxed">{event.desc}</p>
                   <a
-                    href={REGISTER_URL}
+                    href={event.link || REGISTER_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 font-bold hover:underline"
@@ -452,7 +449,7 @@ export default function App() {
                 <span className="font-display font-bold text-xl tracking-tighter uppercase">Talkware</span>
               </div>
               <p className="text-white/40 max-w-sm mb-8">
-                Empowering the next generation of builders in Mandalay through shared knowledge and collaborative innovation.
+                A community where developers stop building useless tools and start building real products with the right idea makers
               </p>
               <div className="flex items-center gap-4">
                 <a href="#" className="p-3 glass rounded-full text-white/40 hover:text-white transition-all"><Twitter className="w-5 h-5" /></a>
@@ -474,7 +471,7 @@ export default function App() {
             <div>
               <h4 className="font-display font-bold mb-6 uppercase tracking-wider text-sm">Contact</h4>
               <ul className="space-y-4 text-sm text-white/40">
-                <li><a href="mailto:team.itpocket@gmail.com" className="hover:text-white transition-colors">team.itpocket@gmail.com</a></li>
+                <li><a href="mailto:team.talkware@gmail.com" className="hover:text-white transition-colors">team.talkware@gmail.com</a></li>
                 <li><a href="tel:+959792470107" className="hover:text-white transition-colors">+95 979 247 010 7</a></li>
                 <li><a href="tel:+959789910866" className="hover:text-white transition-colors">+959 789 910 866</a></li>
               </ul>
