@@ -87,19 +87,13 @@ export default function App() {
               A community where developers stop building useless tools and start building real products with the right idea makers
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <motion.div variants={itemVariants} className="flex justify-center">
               <a
                 href="#events"
                 className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-white/90 transition-all group"
               >
                 Register for Events
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a
-                href="#events"
-                className="w-full sm:w-auto px-8 py-4 glass font-bold rounded-xl hover:bg-white/10 transition-all text-center"
-              >
-                View Events
               </a>
             </motion.div>
           </motion.div>
@@ -179,10 +173,10 @@ export default function App() {
                 },
                 {
                   title: "The Flutter-based simple loyalty application",
-                  date: "To Be Announced",
+                  date: "May 18, 2026 • 7:30 PM",
                   type: "Training",
                   speaker: "Sir Aung Ko Ko Thet",
-                  desc: "Master the basics of Flutter by building a practical loyalty application from scratch.",
+                  desc: "Master the basics of Flutter by building a practical loyalty application from scratch. (90 Days Duration)",
                   link: "https://docs.google.com/forms/d/e/1FAIpQLSccpXrLVNgKMq5goHXwKozXAuxIPCAbQ0808n003u6LTo45fg/viewform?usp=header"
                 }
               ].map((event, i) => (
