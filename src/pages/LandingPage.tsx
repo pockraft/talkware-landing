@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Calendar, Users, Zap, Globe, Instagram, Twitter, Github, Trophy, Rocket, Mail, Phone } from "lucide-react";
+import { ArrowRight, Calendar, Users, Zap, Globe, Github, Trophy, Rocket, Mail, Phone } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 const REGISTER_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc36OmsSG-1iLlA2_THVL3JKlGkR0-JWfd1IyrEOyZtPKjfnw/viewform?usp=header";
