@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Users, Zap, Globe, Github, Trophy, Rocket, Mail, Phone, User } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
@@ -81,7 +82,7 @@ export default function LandingPage() {
     async function fetchData() {
       try {
         const [eventsData, highlightsData, creatorsData, volunteersData] = await Promise.all([
-          supabase.from('events').select('*').order('created_at', { ascending: false }),
+          supabase.from('events').select('*').eq('archived', false).order('created_at', { ascending: false }),
           supabase.from('highlights').select('*').order('num', { ascending: true }),
           supabase.from('co_creators').select('*').order('created_at', { ascending: true }),
           supabase.from('volunteers').select('*').order('created_at', { ascending: true })
@@ -201,7 +202,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/60">
             <a href="#mission" className="hover:text-white transition-colors">Home</a>
             <a href="#events" className="hover:text-white transition-colors">Announcements</a>
-            <a href="#highlights" className="hover:text-white transition-colors">Highlights</a>
+            <a href="#past-events" className="hover:text-white transition-colors">Past Events</a>
             <a href="#story" className="hover:text-white transition-colors">Our Story</a>
           </div>
           <a
@@ -362,46 +363,64 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Highlights */}
-        <section id="highlights" className="py-24 px-6">
+        {/* Past Events */}
+        <section id="past-events" className="py-24 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div>
-                <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">Highlights</h2>
+                <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">Past Events</h2>
                 <p className="text-white/60 max-w-xl">From our very first meetup to a growing movement — here's how the Talkware community has evolved.</p>
               </div>
-              <div className="text-sm text-white/40 font-mono">{displayHighlights.length} meetups &amp; counting</div>
+              <div className="text-sm text-white/40 font-mono">{displayHighlights.length} past events</div>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {displayHighlights.map((event, i) => (
-                <motion.div
-                  key={event.id || i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="p-6 glass rounded-2xl group hover:bg-white/[0.06] transition-colors relative overflow-hidden flex flex-col"
-                >
-                  <div className="absolute top-4 right-4 text-5xl font-display font-black text-white/[0.04] group-hover:text-white/[0.08] transition-colors select-none">
-                    {event.num}
-                  </div>
-                  <div className="aspect-video mb-6 rounded-xl overflow-hidden bg-white/5">
-                    <img
-                      src={event.image_url}
-                      alt={event.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
-                    />
-                  </div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-3">{event.date} • {event.time}</p>
-                  <h3 className="font-display font-bold text-lg mb-2">{event.title}</h3>
-                  <div className="flex items-center gap-1.5 text-xs text-white/40 mb-4">
-                    <Globe className="w-3 h-3" />
-                    <span>{event.place}</span>
-                  </div>
-                  <p className="text-sm text-white/50 leading-relaxed">{event.highlight}</p>
-                </motion.div>
-              ))}
+              {displayHighlights.map((event, i) => {
+                const detailLink = event.event_id ? `/event/${event.event_id}` : null;
+                const cardContent = (
+                  <motion.div
+                    key={event.id || i}
+                    layoutId={`highlight-${event.id || i}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08 }}
+                    className="p-6 glass rounded-2xl group hover:bg-white/[0.06] transition-colors relative overflow-hidden flex flex-col"
+                  >
+                    <div className="absolute top-4 right-4 text-5xl font-display font-black text-white/[0.04] group-hover:text-white/[0.08] transition-colors select-none">
+                      {event.num}
+                    </div>
+                    <div className="aspect-video mb-6 rounded-xl overflow-hidden bg-white/5">
+                      <img
+                        src={event.image_url}
+                        alt={event.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                      />
+                    </div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-3">{event.date} • {event.time}</p>
+                    <h3 className="font-display font-bold text-lg mb-2">{event.title}</h3>
+                    <div className="flex items-center gap-1.5 text-xs text-white/40 mb-4">
+                      <Globe className="w-3 h-3" />
+                      <span>{event.place}</span>
+                    </div>
+                    <p className="text-sm text-white/50 leading-relaxed">{event.highlight}</p>
+                    {detailLink && (
+                      <div className="flex items-center gap-1 text-xs text-white/60 mt-auto pt-4 opacity-0 group-hover:opacity-100 transition-all">
+                        <span>View Details</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </div>
+                    )}
+                  </motion.div>
+                );
+
+                return detailLink ? (
+                  <Link key={event.id || i} to={detailLink} className="block">
+                    {cardContent}
+                  </Link>
+                ) : (
+                  <div key={event.id || i}>{cardContent}</div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -573,7 +592,7 @@ export default function LandingPage() {
               <h4 className="font-display font-bold mb-6 uppercase tracking-wider text-sm">Community</h4>
               <ul className="space-y-4 text-sm text-white/40">
                 <li><a href="#mission" className="hover:text-white transition-colors">Our Mission</a></li>
-                <li><a href="#highlights" className="hover:text-white transition-colors">Highlights</a></li>
+                <li><a href="#past-events" className="hover:text-white transition-colors">Past Events</a></li>
                 <li><a href="#story" className="hover:text-white transition-colors">Our Story</a></li>
                 <li><a href="#founders" className="hover:text-white transition-colors">The Team</a></li>
               </ul>

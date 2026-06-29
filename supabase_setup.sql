@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS public.highlights (
     time TEXT,
     image_url TEXT,
     highlight TEXT NOT NULL,
+    event_id UUID REFERENCES public.events(id),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -69,3 +70,38 @@ CREATE OR REPLACE POLICY "Public Access" ON storage.objects FOR SELECT USING ( b
 
 -- Allow authenticated users to upload/manage files
 CREATE OR REPLACE POLICY "Admin Access" ON storage.objects FOR ALL TO authenticated USING ( bucket_id = 'assets' );
+
+-- 5. Event Detail Tables
+CREATE TABLE IF NOT EXISTS public.event_media (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    event_id UUID REFERENCES public.events(id) ON DELETE CASCADE NOT NULL,
+    media_type TEXT CHECK (media_type IN ('photo', 'video')) NOT NULL,
+    title TEXT,
+    url TEXT NOT NULL,
+    caption TEXT,
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.event_sections (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    event_id UUID REFERENCES public.events(id) ON DELETE CASCADE NOT NULL,
+    section_type TEXT CHECK (section_type IN ('highlight', 'activity', 'game', 'win')) NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    subtitle TEXT,
+    icon TEXT,
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 6. Enable RLS for event detail tables
+ALTER TABLE public.event_media ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.event_sections ENABLE ROW LEVEL SECURITY;
+
+-- 7. RLS Policies for event detail tables
+CREATE POLICY "Allow public read-only access for event_media" ON public.event_media FOR SELECT USING (true);
+CREATE POLICY "Allow public read-only access for event_sections" ON public.event_sections FOR SELECT USING (true);
+
+CREATE POLICY "Allow admin full access for event_media" ON public.event_media FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow admin full access for event_sections" ON public.event_sections FOR ALL TO authenticated USING (true) WITH CHECK (true);
